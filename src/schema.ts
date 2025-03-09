@@ -23,7 +23,7 @@ export class Equipment extends CoMap {
   name = co.string;
   characteristics = co.string
   effects = co.ref(CardEffectsMap);
-  type = co.literal("weapon", "armor", "artifact");
+  type = co.literal("weapon", "armor", "artifact", "spell");
   isTreasure = co.boolean;
 }
 

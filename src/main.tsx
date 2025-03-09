@@ -1,35 +1,12 @@
-import { JazzProvider } from "jazz-react";
-import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
-import App from "./App.tsx";
-import "./index.css";
-import { apiKey } from "./apiKey.ts";
-import { JazzAccount } from "./schema.ts";
+import React from "react"
+import ReactDOM from "react-dom/client"
+import App from "./App.tsx"
+import "./index.css"
 
-// We use this to identify the app in the passkey auth
-export const APPLICATION_NAME = "Jazz starter";
+// biome-ignore lint/style/noNonNullAssertion: <explanation>
+ReactDOM.createRoot(document.getElementById("root")!).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+)
 
-declare module "jazz-react" {
-  export interface Register {
-    Account: JazzAccount;
-  }
-}
-
-const el = document.getElementById("root")
-
-if (!el) {  
-  throw new Error("Root element not found");
-}
-
-createRoot(el).render(
-  <StrictMode>
-    <JazzProvider
-      sync={{
-        peer: `wss://cloud.jazz.tools/?key=${apiKey}`,
-      }}
-      AccountSchema={JazzAccount}
-    >
-      <App />
-    </JazzProvider>
-  </StrictMode>,
-);

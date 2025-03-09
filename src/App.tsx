@@ -1,70 +1,46 @@
-import { useAccount, useIsAuthenticated } from "jazz-react";
-import { AuthButton } from "./AuthButton.tsx";
-import { Form } from "./Form.tsx";
-import { Logo } from "./Logo.tsx";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { JazzProvider } from "jazz-react";
+import { JazzAccount } from "./schema";
+import Navbar from "./components/Navbar";
+import Dashboard from "./pages/Dashboard";
+import GameEditor from "./pages/GameEditor";
+import CharactersManager from "./pages/CharactersManager";
+import EquipmentManager from "./pages/EquipmentManager";
+import MonstersManager from "./pages/MonstersManager";
+import EffectsManager from "./pages/EffectsManager";
+import RuleBookEditor from "./pages/RuleBookEditor";
 
 function App() {
-  const { me } = useAccount({ profile: {}, root: {} });
-
-  const isAuthenticated = useIsAuthenticated();
-
-  return (
-    <>
-      <header>
-        <nav className="container flex justify-between items-center py-3">
-          {isAuthenticated ? (
-            <span>You're logged in.</span>
-          ) : (
-            <span>Authenticate to share the data with another device.</span>
-          )}
-          <AuthButton />
-        </nav>
-      </header>
-      <main className="container mt-16 flex flex-col gap-8">
-        <Logo />
-
-        <div className="text-center">
-          <h1>
-            Welcome{me?.profile.firstName ? <>, {me?.profile.firstName}</> : ""}
-            !
-          </h1>
-          {!!me?.root.age && (
-            <p>As of today, you are {me.root.age} years old.</p>
-          )}
-        </div>
-
-        <Form />
-
-        <p className="text-center">
-          Edit the form above,{" "}
-          <button
-            type="button"
-            onClick={() => window.location.reload()}
-            className="font-semibold underline"
-          >
-            refresh
-          </button>{" "}
-          this page, and see your changes persist.
-        </p>
-
-        <p className="text-center">
-          Edit <code className="font-semibold">schema.ts</code> to add more
-          fields.
-        </p>
-
-        <p className="text-center my-16">
-          Go to{" "}
-          <a
-            className="font-semibold underline"
-            href="https://jazz.tools/docs/react/guide"
-          >
-            jazz.tools/docs/react/guide
-          </a>{" "}
-          for a full tutorial.
-        </p>
-      </main>
-    </>
-  );
+	return (
+		<JazzProvider
+			sync={{ peer: "wss://cloud.jazz.tools/?key=your-email@example.com" }}
+			AccountSchema={JazzAccount}
+		>
+			<Router>
+				<div className="min-h-screen bg-background">
+					<Navbar />
+					<div className="container mx-auto px-4 py-8">
+						<Routes>
+							<Route path="/" element={<Dashboard />} />
+							<Route path="/game" element={<GameEditor />} />
+							<Route path="/characters" element={<CharactersManager />} />
+							<Route path="/equipment" element={<EquipmentManager />} />
+							<Route path="/monsters" element={<MonstersManager />} />
+							<Route path="/effects" element={<EffectsManager />} />
+							<Route path="/rulebook" element={<RuleBookEditor />} />
+						</Routes>
+					</div>
+				</div>
+			</Router>
+		</JazzProvider>
+	);
 }
 
 export default App;
+
+// Register the Account schema so `useAccount` returns our custom `JazzAccount`
+declare module "jazz-react" {
+	interface Register {
+		Account: JazzAccount;
+	}
+}
