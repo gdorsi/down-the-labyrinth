@@ -15,12 +15,17 @@ declare module "jazz-react" {
   }
 }
 
-createRoot(document.getElementById("root")!).render(
+const el = document.getElementById("root")
+
+if (!el) {  
+  throw new Error("Root element not found");
+}
+
+createRoot(el).render(
   <StrictMode>
     <JazzProvider
       sync={{
         peer: `wss://cloud.jazz.tools/?key=${apiKey}`,
-        when: "signedUp", // This way when the user hasn't signed up we store the data only locally
       }}
       AccountSchema={JazzAccount}
     >

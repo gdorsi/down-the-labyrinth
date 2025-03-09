@@ -3,36 +3,76 @@
  * https://jazz.tools/docs/react/schemas/covalues
  */
 
-import { Account, CoMap, Group, Profile, co } from "jazz-tools";
+import { Account, CoMap, co } from "jazz-tools";
 
-/** The account profile is an app-specific per-user public `CoMap`
- *  where you can store top-level objects for that user */
-export class JazzProfile extends Profile {
-  /**
-   * Learn about CoValue field/item types here:
-   * https://jazz.tools/docs/react/schemas/covalues#covalue-fielditem-types
-   */
-  firstName = co.string;
+export class CardEffect extends CoMap {
+  name = co.string;
+  description = co.string;
+}
 
-  // Add public fields here
+export class CardEffectsMap extends CoMap.Record(co.ref(CardEffect)) {}
+
+export class BaseCharacter extends CoMap {
+  name = co.string;
+  characteristics = co.string
+}
+
+export class CharactersMap extends CoMap.Record(co.ref(BaseCharacter)) {}
+
+export class Equipment extends CoMap {
+  name = co.string;
+  characteristics = co.string
+  effects = co.ref(CardEffectsMap);
+  type = co.literal("weapon", "armor", "artifact");
+  isTreasure = co.boolean;
+}
+
+export class EquipmentMap extends CoMap.Record(co.ref(Equipment)) {}
+
+export class Monster extends CoMap {
+  name = co.string;
+  characteristics = co.string
+  effects = co.ref(CardEffectsMap);
+  type = co.literal("boss", "minion");
+  essence = co.ref(MonsterEssence);
+  drop = co.optional.ref(EquipmentDrop);
+  moneyDrop = co.number;
+}
+
+export class MonstersMap extends CoMap.Record(co.ref(Monster)) {}
+
+export class MonsterEssence extends CoMap {
+  name = co.string;
+  characteristics = co.string
+  effects = co.ref(CardEffectsMap);
+  dropRate = co.number;
+}
+
+export class EquipmentDrop extends CoMap {
+  equipment = co.ref(Equipment);
+  dropRate = co.number;
+}
+
+export class RuleBook extends CoMap {
+  content = co.string;
+}
+
+export class Game extends CoMap {
+  name = co.string;
+  effects = co.ref(CardEffectsMap);
+  characters = co.ref(CharactersMap);
+  equipment = co.ref(EquipmentMap);
+  monsters = co.ref(MonstersMap);
+  ruleBook = co.ref(RuleBook);
 }
 
 /** The account root is an app-specific per-user private `CoMap`
  *  where you can store top-level objects for that user */
 export class AccountRoot extends CoMap {
-  dateOfBirth = co.Date;
-
-  // Add private fields here
-
-  get age() {
-    if (!this.dateOfBirth) return null;
-
-    return new Date().getFullYear() - this.dateOfBirth.getFullYear();
-  }
+  game = co.ref(Game);
 }
 
 export class JazzAccount extends Account {
-  profile = co.ref(JazzProfile);
   root = co.ref(AccountRoot);
 
   /** The account migration is run on account creation and on every log-in.
@@ -40,13 +80,17 @@ export class JazzAccount extends Account {
    */
   migrate(this: JazzAccount) {
     if (this.root === undefined) {
-      const group = Group.create();
-
       this.root = AccountRoot.create(
         {
-          dateOfBirth: new Date("1/1/1990"),
+          game: Game.create({
+            name: "Default Game",
+            effects: CardEffectsMap.create({}),
+            characters: CharactersMap.create({}),
+            equipment: EquipmentMap.create({}),
+            monsters: MonstersMap.create({}),
+            ruleBook: RuleBook.create({ content: "Default Rule Book" }),
+          }),
         },
-        group,
       );
     }
   }
