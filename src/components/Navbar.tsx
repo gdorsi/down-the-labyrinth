@@ -2,6 +2,7 @@ import { Link } from "react-router-dom"
 import { useAccount, useIsAuthenticated } from "jazz-react"
 import { useState } from "react"
 import AuthModal from "./AuthModal"
+import PassphraseModal from "./PassphraseModal"
 import { Button } from "@/components/ui/button"
 import {
   NavigationMenu,
@@ -17,7 +18,7 @@ export default function Navbar() {
   const { logOut } = useAccount()
   const isAuthenticated = useIsAuthenticated()
   const [authModalOpen, setAuthModalOpen] = useState(false)
-
+  const [passphraseModalOpen, setPassphraseModalOpen] = useState(false)
   return (
     <nav className="bg-background border-b">
       <div className="container mx-auto px-4">
@@ -32,11 +33,6 @@ export default function Navbar() {
                   <NavigationMenuItem>
                     <Link to="/">
                       <NavigationMenuLink className={navigationMenuTriggerStyle()}>Dashboard</NavigationMenuLink>
-                    </Link>
-                  </NavigationMenuItem>
-                  <NavigationMenuItem>
-                    <Link to="/game">
-                      <NavigationMenuLink className={navigationMenuTriggerStyle()}>Game</NavigationMenuLink>
                     </Link>
                   </NavigationMenuItem>
                   <NavigationMenuItem>
@@ -110,6 +106,9 @@ export default function Navbar() {
           <div className="flex items-center">
             {isAuthenticated ? (
               <div className="flex items-center space-x-2">
+                <Button variant="outline" size="sm" onClick={() => setPassphraseModalOpen(true)}>
+                  Manage Passphrase
+                </Button>
                 <Button variant="outline" size="sm" onClick={logOut}>
                   Log Out
                 </Button>
@@ -123,6 +122,7 @@ export default function Navbar() {
         </div>
       </div>
       <AuthModal open={authModalOpen} onOpenChange={setAuthModalOpen} />
+      <PassphraseModal open={passphraseModalOpen} onOpenChange={setPassphraseModalOpen} />
     </nav>
   )
 }
