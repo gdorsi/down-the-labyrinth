@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/navigation-menu"
 
 export default function Navbar() {
-  const { me, logOut } = useAccount()
+  const { logOut } = useAccount()
   const isAuthenticated = useIsAuthenticated()
   const [authModalOpen, setAuthModalOpen] = useState(false)
 
