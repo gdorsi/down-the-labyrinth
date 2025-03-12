@@ -1,41 +1,33 @@
 import { useAccount } from "jazz-react"
 import { useState } from "react"
-import { CardEffectsMap, Equipment } from "../schema"
+import { CardEffectsMap, Equipment, type EquipmentMap } from "../schema"
 
 export default function EquipmentManager() {
   const { me } = useAccount({
-    root: {
-      game: {
-        equipment: {},
-        effects: {},
-      },
-    },
+		root: {
+			game: {
+				equipment: [{
+          effects: [{}],
+        }],
+				effects: [{}],
+			},
+		},
   })
 
   const [isCreating, setIsCreating] = useState(false)
   const [isEditing, setIsEditing] = useState<string | null>(null)
   const [name, setName] = useState("")
   const [characteristics, setCharacteristics] = useState("")
-  const [type, setType] = useState<"weapon" | "armor" | "artifact">("weapon")
+  const [type, setType] = useState<"weapon" | "armor" | "artifact" | "spell">("weapon")
   const [isTreasure, setIsTreasure] = useState(false)
   const [selectedEffects, setSelectedEffects] = useState<string[]>([])
 
   const equipmentMap = me?.root?.game?.equipment
   const effectsMap = me?.root?.game?.effects
 
-  const equipment = equipmentMap
-    ? Object.entries(equipmentMap).map(([id, item]) => ({
-        id,
-        ...item,
-      }))
-    : []
+	const equipment = equipmentMap ? Object.values(equipmentMap) : [];
 
-  const effects = effectsMap
-    ? Object.entries(effectsMap).map(([id, effect]) => ({
-        id,
-        ...effect,
-      }))
-    : []
+	const effects = effectsMap ? Object.values(effectsMap) : [];
 
   const resetForm = () => {
     setName("")
@@ -53,12 +45,12 @@ export default function EquipmentManager() {
     // Create effects map
     const itemEffects = CardEffectsMap.create({}, equipmentMap._owner)
 
-    // Add selected effects
-    selectedEffects.forEach((effectId) => {
-      if (effectsMap[effectId]) {
-        itemEffects[effectId] = effectsMap[effectId]
-      }
-    })
+		// Add selected effects
+		for (const effectId of selectedEffects) {
+			if (effectsMap[effectId]) {
+				itemEffects[effectId] = effectsMap[effectId];
+			}
+		}
 
     // Create equipment
     const item = Equipment.create(
@@ -70,9 +62,9 @@ export default function EquipmentManager() {
         isTreasure,
       },
       equipmentMap._owner,
-    )
+    );
 
-    equipmentMap[item.id] = item
+    (equipmentMap as EquipmentMap)[item.id] = item
     resetForm()
   }
 
@@ -89,17 +81,17 @@ export default function EquipmentManager() {
       // Update effects
       const itemEffects = item.effects
 
-      // Clear existing effects
-      Object.keys(itemEffects).forEach((key) => {
-        delete itemEffects[key]
-      })
+			// Clear existing effects
+			for (const key of Object.keys(itemEffects ?? {})) {
+				delete itemEffects[key];
+			}
 
       // Add selected effects
-      selectedEffects.forEach((effectId) => {
+      for (const effectId of selectedEffects) {
         if (effectsMap[effectId]) {
           itemEffects[effectId] = effectsMap[effectId]
         }
-      })
+      }
 
       resetForm()
     }
@@ -209,6 +201,7 @@ export default function EquipmentManager() {
             </div>
 
             <div>
+              {/* biome-ignore lint/a11y/noLabelWithoutControl: <explanation> */}
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Effects</label>
               <div className="max-h-40 overflow-y-auto border border-gray-300 dark:border-gray-600 rounded-md p-2">
                 {effects.length === 0 ? (
@@ -254,6 +247,7 @@ export default function EquipmentManager() {
           </form>
         ) : (
           <button
+            type="button"
             onClick={() => setIsCreating(true)}
             className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
           >
@@ -298,12 +292,14 @@ export default function EquipmentManager() {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                     <button
+                      type="button"
                       onClick={() => startEditing(item.id)}
                       className="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 mr-4"
                     >
                       Edit
                     </button>
                     <button
+                      type="button"
                       onClick={() => handleDelete(item.id)}
                       className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"
                     >

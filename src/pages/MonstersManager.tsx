@@ -2,15 +2,22 @@
 
 import { useAccount } from "jazz-react"
 import { useState } from "react"
-import { CardEffectsMap, EquipmentDrop, Monster, MonsterEssence } from "../schema"
+import { CardEffectsMap, EquipmentDrop, Monster, MonsterEssence, type MonstersMap } from "../schema"
 
 export default function MonstersManager() {
   const { me } = useAccount({
     root: {
       game: {
-        monsters: {},
-        equipment: {},
-        effects: {},
+        monsters: [{
+          effects: [{}],
+          essence: {
+            effects: [{}],
+          },
+        }],
+        equipment: [{
+          effects: [{}],
+        }],
+        effects: [{}],
       },
     },
   })
@@ -39,24 +46,15 @@ export default function MonstersManager() {
   const equipmentMap = me?.root?.game?.equipment
 
   const monsters = monstersMap
-    ? Object.entries(monstersMap).map(([id, monster]) => ({
-        id,
-        ...monster,
-      }))
+    ? Object.values(monstersMap)
     : []
 
   const effects = effectsMap
-    ? Object.entries(effectsMap).map(([id, effect]) => ({
-        id,
-        ...effect,
-      }))
+    ? Object.values(effectsMap)
     : []
 
   const equipment = equipmentMap
-    ? Object.entries(equipmentMap).map(([id, item]) => ({
-        id,
-        ...item,
-      }))
+    ? Object.values(equipmentMap)
     : []
 
   const resetForm = () => {
@@ -86,21 +84,21 @@ export default function MonstersManager() {
     const monsterEffects = CardEffectsMap.create({}, monstersMap._owner)
 
     // Add selected effects
-    selectedEffects.forEach((effectId) => {
+    for (const effectId of selectedEffects) {
       if (effectsMap[effectId]) {
         monsterEffects[effectId] = effectsMap[effectId]
       }
-    })
+    }
 
     // Create essence effects map
     const essenceEffectsMap = CardEffectsMap.create({}, monstersMap._owner)
 
     // Add selected essence effects
-    essenceEffects.forEach((effectId) => {
+    for (const effectId of essenceEffects) {
       if (effectsMap[effectId]) {
         essenceEffectsMap[effectId] = effectsMap[effectId]
       }
-    })
+    }
 
     // Create monster essence
     const essence = MonsterEssence.create(
@@ -137,9 +135,9 @@ export default function MonstersManager() {
         moneyDrop,
       },
       monstersMap._owner,
-    )
+    );
 
-    monstersMap[monster.id] = monster
+    (monstersMap as MonstersMap)[monster.id] = monster
     resetForm()
   }
 
@@ -157,16 +155,16 @@ export default function MonstersManager() {
       const monsterEffects = monster.effects
 
       // Clear existing effects
-      Object.keys(monsterEffects).forEach((key) => {
+      for (const key of Object.keys(monsterEffects)) {
         delete monsterEffects[key]
-      })
+      }
 
       // Add selected effects
-      selectedEffects.forEach((effectId) => {
+      for (const effectId of selectedEffects) {
         if (effectsMap[effectId]) {
           monsterEffects[effectId] = effectsMap[effectId]
         }
-      })
+      }
 
       // Update essence
       const essence = monster.essence
@@ -178,16 +176,18 @@ export default function MonstersManager() {
       const essenceEffectsMap = essence.effects
 
       // Clear existing essence effects
-      Object.keys(essenceEffectsMap).forEach((key) => {
-        delete essenceEffectsMap[key]
-      })
-
-      // Add selected essence effects
-      essenceEffects.forEach((effectId) => {
-        if (effectsMap[effectId]) {
-          essenceEffectsMap[effectId] = effectsMap[effectId]
+      if (essenceEffectsMap) {
+        for (const key of Object.keys(essenceEffectsMap)) {
+          delete essenceEffectsMap[key]
         }
-      })
+
+        // Add selected essence effects
+        for (const effectId of essenceEffects) {
+          if (effectsMap[effectId]) {
+            essenceEffectsMap[effectId] = effectsMap[effectId]
+          }
+        }
+      }
 
       // Update equipment drop
       if (hasEquipmentDrop && selectedEquipment && equipmentMap[selectedEquipment]) {
@@ -245,7 +245,7 @@ export default function MonstersManager() {
 
       // Get equipment drop data
       const drop = monster.drop
-      if (drop && drop.equipment) {
+      if (drop?.equipment) {
         setHasEquipmentDrop(true)
         setSelectedEquipment(drop.equipment.id)
         setEquipmentDropRate(drop.dropRate)
@@ -352,6 +352,7 @@ export default function MonstersManager() {
                 </div>
 
                 <div>
+                  {/* biome-ignore lint/a11y/noLabelWithoutControl: <explanation> */}
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Monster Effects
                   </label>
@@ -436,6 +437,7 @@ export default function MonstersManager() {
                 </div>
 
                 <div>
+                  {/* biome-ignore lint/a11y/noLabelWithoutControl: <explanation> */}
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Essence Effects
                   </label>
@@ -548,6 +550,7 @@ export default function MonstersManager() {
           </form>
         ) : (
           <button
+            type="button"
             onClick={() => setIsCreating(true)}
             className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
           >
@@ -596,12 +599,14 @@ export default function MonstersManager() {
                   <td className="px-6 py-4 whitespace-nowrap text-gray-900 dark:text-white">{monster.moneyDrop}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                     <button
+                      type="button"
                       onClick={() => startEditing(monster.id)}
                       className="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 mr-4"
                     >
                       Edit
                     </button>
                     <button
+                      type="button"
                       onClick={() => handleDelete(monster.id)}
                       className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"
                     >

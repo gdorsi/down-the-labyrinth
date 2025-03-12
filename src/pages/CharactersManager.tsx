@@ -9,28 +9,24 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import type { ID } from "jazz-tools"
 
 export default function CharactersManager() {
   const { me } = useAccount({
     root: {
       game: {
-        characters: {},
+        characters: [{}],
       },
     },
   })
 
   const [isCreating, setIsCreating] = useState(false)
-  const [isEditing, setIsEditing] = useState<string | null>(null)
+  const [isEditing, setIsEditing] = useState<ID<BaseCharacter> | null>(null)
   const [name, setName] = useState("")
   const [characteristics, setCharacteristics] = useState("")
 
   const charactersMap = me?.root?.game?.characters
-  const characters = charactersMap
-    ? Object.entries(charactersMap).map(([id, character]) => ({
-        id,
-        ...character,
-      }))
-    : []
+  const characters = Object.values(charactersMap ?? {})
 
   const resetForm = () => {
     setName("")
@@ -65,13 +61,13 @@ export default function CharactersManager() {
     }
   }
 
-  const handleDelete = (id: string) => {
+  const handleDelete = (id: ID<BaseCharacter>) => {
     if (!charactersMap) return
 
     delete charactersMap[id]
   }
 
-  const startEditing = (id: string) => {
+  const startEditing = (id: ID<BaseCharacter>) => {
     if (!charactersMap) return
 
     const character = charactersMap[id]
