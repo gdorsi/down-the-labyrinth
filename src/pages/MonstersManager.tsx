@@ -1,7 +1,8 @@
 "use client";
 
-import { useAccount, useCoState } from "jazz-react";
+import { useAccount, useCoState, ProgressiveImg } from "jazz-react";
 import { useState } from "react";
+import { createImage } from "jazz-browser-media-images";
 import {
 	CardEffectsMap,
 	type Equipment,
@@ -46,38 +47,41 @@ export default function MonstersManager() {
 	};
 
 	const startEditing = (id: string) => {
-			setIsEditing(id);
-			setIsCreating(false);
+		setIsEditing(id);
+		setIsCreating(false);
 	};
 
 	const handleCreateMonster = () => {
-    if (!monstersMap || !effectsMap || !equipmentMap) return;
+		if (!monstersMap || !effectsMap || !equipmentMap) return;
 
-    const monster = Monster.create({
-      name: "",
-      characteristics: "",
-      effects: CardEffectsMap.create({}, monstersMap._owner),
-      type: "minion",
-      moneyDrop: 0,
-      essence: MonsterEssence.create({
-        name: "",
-        characteristics: "",
-        effects: CardEffectsMap.create({}, monstersMap._owner),
-        dropRate: 0,
-      }),
-      drop: EquipmentDropMap.create({}, monstersMap._owner),
-    }, monstersMap._owner)
+		const monster = Monster.create(
+			{
+				name: "",
+				characteristics: "",
+				effects: CardEffectsMap.create({}, monstersMap._owner),
+				type: "minion",
+				moneyDrop: 0,
+				essence: MonsterEssence.create({
+					name: "",
+					characteristics: "",
+					effects: CardEffectsMap.create({}, monstersMap._owner),
+					dropRate: 0,
+				}),
+				drop: EquipmentDropMap.create({}, monstersMap._owner),
+			},
+			monstersMap._owner,
+		);
 
-    setIsEditing(monster.id);
-    setIsCreating(true);
-  }
+		setIsEditing(monster.id);
+		setIsCreating(true);
+	};
 
-  const handleSubmit = (monster: Monster) => {
-    if (!monstersMap || !effectsMap || !equipmentMap) return;
+	const handleSubmit = (monster: Monster) => {
+		if (!monstersMap || !effectsMap || !equipmentMap) return;
 
-    // @ts-expect-error TODO: fix this
-    monstersMap[monster.id] = monster
-  }
+		// @ts-expect-error TODO: fix this
+		monstersMap[monster.id] = monster;
+	};
 
 	if (!monstersMap || !effectsMap || !equipmentMap) {
 		return <div>Loading monsters data...</div>;
@@ -473,8 +477,37 @@ function MonsterForm(props: {
 						</div>
 					))}
 				</div>
-			</div>
+				<div className="my-4 flex justify-between">
+					<div className="relative">
+						<label
+							htmlFor="image"
+							className="cursor-pointer px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 inline-block"
+						>
+							Upload Image
+						</label>
+						<input
+							id="image"
+							type="file"
+							className="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
+							onChange={async (e) => {
+								const file = e.target.files?.[0];
+								if (!file) return;
 
+								const image = await createImage(file);
+								monster.image = image;
+								e.target.value = "";
+							}}
+						/>
+					</div>
+					{monster.image && (
+						<ProgressiveImg image={monster.image} maxWidth={800}>
+							{({ src }) => (
+								<img src={src} alt={monster.name} className="gallery-image" />
+							)}
+						</ProgressiveImg>
+					)}
+				</div>
+			</div>
 			<div className="flex space-x-4">
 				{props.isEditing === false && (
 					<button
@@ -484,13 +517,13 @@ function MonsterForm(props: {
 						Create
 					</button>
 				)}
-        <button
-          type="button"
-          onClick={props.onCancel}
-          className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600"
-        >
-          Cancel
-        </button>
+				<button
+					type="button"
+					onClick={props.onCancel}
+					className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600"
+				>
+					Close
+				</button>
 			</div>
 		</form>
 	);
@@ -541,6 +574,9 @@ function MonstersList(props: { onEdit: (id: string) => void }) {
 						<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
 							Money Drop
 						</th>
+						<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+							Image
+						</th>
 						<th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
 							Actions
 						</th>
@@ -570,6 +606,18 @@ function MonstersList(props: { onEdit: (id: string) => void }) {
 								</td>
 								<td className="px-6 py-4 whitespace-nowrap text-gray-900 dark:text-white">
 									{monster.moneyDrop}
+								</td>
+								<td className="px-6 py-4 whitespace-nowrap text-gray-900 dark:text-white">
+									<ProgressiveImg image={monster.image} maxWidth={256}>
+										{({ src }) => (
+											<img
+												src={src}
+												alt={monster.name}
+												className="gallery-image"
+												width={28}
+											/>
+										)}
+									</ProgressiveImg>
 								</td>
 								<td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
 									<button
