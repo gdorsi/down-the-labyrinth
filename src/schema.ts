@@ -3,11 +3,12 @@
  * https://jazz.tools/docs/react/schemas/covalues
  */
 
-import { Account, CoMap, co } from "jazz-tools";
+import { Account, CoMap, co, ImageDefinition } from "jazz-tools";
 
 export class CardEffect extends CoMap {
   name = co.string;
   description = co.string;
+  type = co.literal("active", "pasive");
 }
 
 export class CardEffectsMap extends CoMap.Record(co.ref(CardEffect)) {}
@@ -37,6 +38,7 @@ export class Monster extends CoMap {
   essence = co.ref(MonsterEssence);
   drop = co.optional.ref(EquipmentDrop);
   moneyDrop = co.number;
+  image = co.optional.ref(ImageDefinition);
 }
 
 export class MonstersMap extends CoMap.Record(co.ref(Monster)) {}

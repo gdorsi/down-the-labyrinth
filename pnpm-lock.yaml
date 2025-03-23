@@ -29,6 +29,9 @@ importers:
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
+      jazz-browser-media-images:
+        specifier: ^0.11.5
+        version: 0.11.5
       jazz-react:
         specifier: ^0.11.2
         version: 0.11.2(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -1331,8 +1334,14 @@ packages:
   '@types/estree@1.0.6':
     resolution: {integrity: sha512-AYnb1nQyY49te+VRAVgmzfcgjYS91mY5P0TKUDCLEM+gNnA+3T6rWITXRLYCpahpqSQbN5cE+gHpnPyXjHWxcw==}
 
+  '@types/image-blob-reduce@4.1.4':
+    resolution: {integrity: sha512-IMG+KVL7iy/g05zaJQFqc+Y0l+SlBVVW3GVKLM+ZkBtENoJSZ5nqIgtSZcs04QJvF+ticYJn9n3ZG427wg7Yhg==}
+
   '@types/node@22.13.10':
     resolution: {integrity: sha512-I6LPUvlRH+O6VRUqYOcMudhaIdUVWfsjnZavnsraHvpBwaEyMN29ry+0UVJhImYL16xsscu0aske3yA+uPOWfw==}
+
+  '@types/pica@9.0.5':
+    resolution: {integrity: sha512-OSd4905yxFNtRanHuyyQAfC9AkxiYcbhlzP606Gl6rFcYRgq4vdLCZuYKokLQBihgrkNzyPkoeykvJDWcPjaCw==}
 
   '@types/react-dom@19.0.4':
     resolution: {integrity: sha512-4fSQ8vWFkg+TGhePfUzVmat3eC14TXYSsiiDSLI0dVLsrm9gZFABjPy/Qu6TKgl1tq1Bu1yDsuQgY3A3DOjCcg==}
@@ -1458,14 +1467,26 @@ packages:
   cojson-storage-indexeddb@0.11.0:
     resolution: {integrity: sha512-BLAdqdVHkYGEpMFfGCY/Dvqbdu2Mooxjo11AsNdH34KqMlwoQSMJ4GZvwTWUSW4EJA1AogCbZgZDCtl1QDKhzQ==}
 
+  cojson-storage-indexeddb@0.11.5:
+    resolution: {integrity: sha512-SsupRLvX9vJqQ8hlmd2lRnixGlhCKkcbo5bREN+eir7EG9z42lZn7DdgRsqIbkYAQ+1ZuDu+6+RGfU7aJNJhVg==}
+
   cojson-storage@0.11.0:
     resolution: {integrity: sha512-S2dhBPPJuhLwyJRVY/GmTwPEkRTBMisC22jw7rbgQGHQtHopNUoUxaVo8Ad7BVEeukyKhWN1ZYiT0jJGrNwzEw==}
+
+  cojson-storage@0.11.5:
+    resolution: {integrity: sha512-65fc7sz5I4Pl0YHO9IinW7myBr3nNrLxiBl9DE68rkvKP66QlG1UjBCCbSdqQUZAeJbb0U+RI70lJ2aHFo5Kag==}
 
   cojson-transport-ws@0.11.0:
     resolution: {integrity: sha512-eH9QiGNNXfEZ4laHfY7m9MMOzYfJHEK/apwUGY5cPBxmX3uWBCkpz70sh66yll93hbryaTd9dCO/BdXDf2so8A==}
 
+  cojson-transport-ws@0.11.5:
+    resolution: {integrity: sha512-5d5g9++Wgnv6higcWWW89n5/3VhsG94q+Um5CtAwrtusfxf+fW4QOkbh30TF24CyPNtWZSZ+Bsld+VlITThvrA==}
+
   cojson@0.11.0:
     resolution: {integrity: sha512-ZiQCAyc3Y9vsPJJt6YCfafIHfsJMJUANrtiyUGQ6BVmz/DJMRJzcqoY1naMiTRIa1l/12lBYaxGtPEB1SMnTvg==}
+
+  cojson@0.11.5:
+    resolution: {integrity: sha512-ko0l6X40GBglGylr7ztRhyzx/kcqCl5bUcgXTUBSlJF+lAcQpgPmZMutkL8snh5E/X3EmMABGF9bzGbs0ZkO6w==}
 
   color-convert@2.0.1:
     resolution: {integrity: sha512-RRECPsj7iu/xb5oKYcsFHSppFNnsj/52OVTRKb4zP5onXwVF3zVmmToNcOfGC+CRDpfK/U584fMg38ZHCaElKQ==}
@@ -1696,6 +1717,9 @@ packages:
     resolution: {integrity: sha512-DpLKbNU4WylpxJykQujfCcwYWiV/Jhm50Goo0wrVILAv5jOr9d+H+UR3PhSCD2rCCEIg0uc+G+muBTwD54JhDQ==}
     engines: {node: '>= 0.4'}
 
+  glur@1.1.2:
+    resolution: {integrity: sha512-l+8esYHTKOx2G/Aao4lEQ0bnHWg4fWtJbVoZZT9Knxi01pB8C80BR85nONLFwkkQoFRCmXY+BUcGZN3yZ2QsRA==}
+
   gopd@1.2.0:
     resolution: {integrity: sha512-ZUKRh6/kUFoAiTAtTYPZJ3hw9wNxx+BIBOijnlG9PnrJsCcSjs1wyyD6vJpaYtgnzDrKYRSqf3OO6Rfa93xsRg==}
     engines: {node: '>= 0.4'}
@@ -1732,6 +1756,9 @@ packages:
 
   idb@7.1.1:
     resolution: {integrity: sha512-gchesWBzyvGHRO9W8tzUWFDycow5gwjvFKfyV9FF32Y7F50yZMp7mP+T2mJIWFx49zicqyC4uefHM17o6xKIVQ==}
+
+  image-blob-reduce@4.1.0:
+    resolution: {integrity: sha512-iljleP8Fr7tS1ezrAazWi30abNPYXtBGXb9R9oTZDWObqiKq18AQJGTUb0wkBOtdCZ36/IirkuuAIIHTjBJIjA==}
 
   inflight@1.0.6:
     resolution: {integrity: sha512-k92I/b08q4wvFscXCLvqfsHCrjrF7yiXsQuIVvVE7N82W3+aqpzuUdBbfhWcy/FZR3/4IgflMgKLOsvPDrGCJA==}
@@ -1855,8 +1882,14 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
+  jazz-browser-media-images@0.11.5:
+    resolution: {integrity: sha512-Hlv/Pl1crYmlJm4bBpS9wR3v7DZ0X7seagLSn7b0yQe4jnrt70AWzByYx0/kL3l+nZRvb6Bgj9BpPpPh97/xFw==}
+
   jazz-browser@0.11.2:
     resolution: {integrity: sha512-lwAPO3GslM5KwuZc7vkt/3Z48i0mglBrQfvGdEVKka5oPUpFOnqPCLDNSCfn5SrjW1JvXxIcRz7pFnTrCtx0pg==}
+
+  jazz-browser@0.11.5:
+    resolution: {integrity: sha512-juLYqIlj3oy2qffwN1Tj1oU/9sQ6p9eTgoQ+WVP9T+fqlFjoSQha4Qy0A4TLZdEgNPcOFolq9fORQ4LkJNL5aQ==}
 
   jazz-crypto-rs@0.0.6:
     resolution: {integrity: sha512-+hJM9hPzMjK7Jk9++sUs5mKXlFiCTMDZ2wjO8WsfNpY7RZ+kiYSwkCrKvvvDRHSXPlzoyFQFxrSrXqN0/Fr6Yw==}
@@ -1875,6 +1908,9 @@ packages:
 
   jazz-tools@0.11.2:
     resolution: {integrity: sha512-mp0zBDDVRD3TjZLc3MxRgzepYpI4j1ypL8PEBRblMGa91ofqst5XkfL64vh6bg14xes9tbR1zwibF+bQpqazIQ==}
+
+  jazz-tools@0.11.5:
+    resolution: {integrity: sha512-WdzUB3wg+T5X110uTPmIqRI90Kd12ex0iN5wcTsTuKqd0Yv2ZxzGp9zj9R+8feJojBP/+FwSCVdd+TBtjr3cOQ==}
 
   jiti@2.4.2:
     resolution: {integrity: sha512-rg9zJN+G4n2nfJl5MW3BMygZX56zKPNVEYYqq7adpmMh4Jn2QNEwhvQlFy6jPVdcod7txZtKHWnyZiA3a0zP7A==}
@@ -2013,6 +2049,9 @@ packages:
   ms@2.1.3:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
 
+  multimath@2.0.0:
+    resolution: {integrity: sha512-toRx66cAMJ+Ccz7pMIg38xSIrtnbozk0dchXezwQDMgQmbGpfxjtv68H+L00iFL8hxDaVjrmwAFSb3I6bg8Q2g==}
+
   nanoid@3.3.9:
     resolution: {integrity: sha512-SppoicMGpZvbF1l3z4x7No3OlIjP7QJvC9XR7AhZr1kL133KHnKPztkKDc+Ir4aJ/1VhTySrtKhrsycmrMQfvg==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
@@ -2024,6 +2063,10 @@ packages:
 
   node-releases@2.0.19:
     resolution: {integrity: sha512-xxOWJsBKtzAq7DY0J+DTzuz58K8e7sJbdgwkbMWQe8UYB6ekmsQ45q0M/tJDsGaZmbC+l7n57UV8Hl5tHxO9uw==}
+
+  object-assign@4.1.1:
+    resolution: {integrity: sha512-rJgTQnkUnH1sFw8yT6VSU3zD3sWmu6sZhIseY8VX+GRu3P6F7Fu+JNDoXfklElbLJSnc3FUQHVe4cU5hj+BcUg==}
+    engines: {node: '>=0.10.0'}
 
   object-inspect@1.13.4:
     resolution: {integrity: sha512-W67iLl4J2EXEGTbfeHCffrjDfitvLANg0UlX3wFUUSTx92KXRFegMHUVgSqE+wvhAbi4WqjGg9czysTV2Epbew==}
@@ -2050,6 +2093,9 @@ packages:
 
   path-parse@1.0.7:
     resolution: {integrity: sha512-LDJzPVEEEPR+y48z93A0Ed0yXb8pAByGWo/k5YYdYgpY2/2EsOsksJrq7lOHxryrVOn1ejG6oAp8ahvOIQD8sw==}
+
+  pica@9.0.1:
+    resolution: {integrity: sha512-v0U4vY6Z3ztz9b4jBIhCD3WYoecGXCQeCsYep+sXRefViL+mVVoTL+wqzdPeE+GpBFsRUtQZb6dltvAt2UkMtQ==}
 
   picocolors@1.1.1:
     resolution: {integrity: sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA==}
@@ -2501,6 +2547,9 @@ packages:
 
   webidl-conversions@4.0.2:
     resolution: {integrity: sha512-YQ+BmxuTgd6UXZW3+ICGfyqRyHXVlD5GtQr5+qjiNW7bF0cqrzX500HVXPBOvgXb5YnzDd+h0zqyv61KUD7+Sg==}
+
+  webworkify@1.5.0:
+    resolution: {integrity: sha512-AMcUeyXAhbACL8S2hqqdqOLqvJ8ylmIbNwUIqQujRSouf4+eUFaXbG6F1Rbu+srlJMmxQWsiU7mOJi0nMBfM1g==}
 
   whatwg-url@7.1.0:
     resolution: {integrity: sha512-WUu7Rg1DroM7oQvGWfOiAK21n74Gg+T4elXEQYkOhtyLeWiJFoOGLXPKI/9gzIie9CtwVLm8wtw6YJdKyxSjeg==}
@@ -3800,9 +3849,15 @@ snapshots:
 
   '@types/estree@1.0.6': {}
 
+  '@types/image-blob-reduce@4.1.4':
+    dependencies:
+      '@types/pica': 9.0.5
+
   '@types/node@22.13.10':
     dependencies:
       undici-types: 6.20.0
+
+  '@types/pica@9.0.5': {}
 
   '@types/react-dom@19.0.4(@types/react@19.0.10)':
     dependencies:
@@ -3950,16 +4005,41 @@ snapshots:
       cojson: 0.11.0
       cojson-storage: 0.11.0
 
+  cojson-storage-indexeddb@0.11.5:
+    dependencies:
+      cojson: 0.11.5
+      cojson-storage: 0.11.5
+
   cojson-storage@0.11.0:
     dependencies:
       cojson: 0.11.0
+
+  cojson-storage@0.11.5:
+    dependencies:
+      cojson: 0.11.5
 
   cojson-transport-ws@0.11.0:
     dependencies:
       cojson: 0.11.0
       typescript: 5.6.3
 
+  cojson-transport-ws@0.11.5:
+    dependencies:
+      cojson: 0.11.5
+      typescript: 5.6.3
+
   cojson@0.11.0:
+    dependencies:
+      '@noble/ciphers': 0.1.4
+      '@noble/curves': 1.8.1
+      '@noble/hashes': 1.7.1
+      '@opentelemetry/api': 1.9.0
+      '@scure/base': 1.2.1
+      jazz-crypto-rs: 0.0.6
+      neverthrow: 7.2.0
+      queueueue: 4.1.2
+
+  cojson@0.11.5:
     dependencies:
       '@noble/ciphers': 0.1.4
       '@noble/curves': 1.8.1
@@ -4260,6 +4340,8 @@ snapshots:
       define-properties: 1.2.1
       gopd: 1.2.0
 
+  glur@1.1.2: {}
+
   gopd@1.2.0: {}
 
   graceful-fs@4.2.11: {}
@@ -4287,6 +4369,10 @@ snapshots:
       function-bind: 1.1.2
 
   idb@7.1.1: {}
+
+  image-blob-reduce@4.1.0:
+    dependencies:
+      pica: 9.0.1
 
   inflight@1.0.6:
     dependencies:
@@ -4419,12 +4505,28 @@ snapshots:
       filelist: 1.0.4
       minimatch: 3.1.2
 
+  jazz-browser-media-images@0.11.5:
+    dependencies:
+      '@types/image-blob-reduce': 4.1.4
+      image-blob-reduce: 4.1.0
+      jazz-browser: 0.11.5
+      jazz-tools: 0.11.5
+      pica: 9.0.1
+      typescript: 5.6.3
+
   jazz-browser@0.11.2:
     dependencies:
       cojson: 0.11.0
       cojson-storage-indexeddb: 0.11.0
       cojson-transport-ws: 0.11.0
       jazz-tools: 0.11.2
+
+  jazz-browser@0.11.5:
+    dependencies:
+      cojson: 0.11.5
+      cojson-storage-indexeddb: 0.11.5
+      cojson-transport-ws: 0.11.5
+      jazz-tools: 0.11.5
 
   jazz-crypto-rs@0.0.6: {}
 
@@ -4449,6 +4551,12 @@ snapshots:
     dependencies:
       '@scure/bip39': 1.5.4
       cojson: 0.11.0
+      fast-myers-diff: 3.2.0
+
+  jazz-tools@0.11.5:
+    dependencies:
+      '@scure/bip39': 1.5.4
+      cojson: 0.11.5
       fast-myers-diff: 3.2.0
 
   jiti@2.4.2: {}
@@ -4550,11 +4658,18 @@ snapshots:
 
   ms@2.1.3: {}
 
+  multimath@2.0.0:
+    dependencies:
+      glur: 1.1.2
+      object-assign: 4.1.1
+
   nanoid@3.3.9: {}
 
   neverthrow@7.2.0: {}
 
   node-releases@2.0.19: {}
+
+  object-assign@4.1.1: {}
 
   object-inspect@1.13.4: {}
 
@@ -4582,6 +4697,13 @@ snapshots:
   path-is-absolute@1.0.1: {}
 
   path-parse@1.0.7: {}
+
+  pica@9.0.1:
+    dependencies:
+      glur: 1.1.2
+      multimath: 2.0.0
+      object-assign: 4.1.1
+      webworkify: 1.5.0
 
   picocolors@1.1.1: {}
 
@@ -5056,6 +5178,8 @@ snapshots:
       yaml: 2.7.0
 
   webidl-conversions@4.0.2: {}
+
+  webworkify@1.5.0: {}
 
   whatwg-url@7.1.0:
     dependencies:
