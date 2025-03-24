@@ -9,8 +9,10 @@ import { AuthButton } from "./AuthButton"
 
 export function Layout({ children }: { children: ReactNode }) {
   const { me } = useAccount({
-    root: {
-      game: {},
+    resolve: {
+      root: {
+        game: true,
+      },
     },
   })
   const [isOpen, setIsOpen] = useState(false)

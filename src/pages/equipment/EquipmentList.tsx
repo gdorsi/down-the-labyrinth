@@ -8,12 +8,19 @@ import { Outlet } from "@tanstack/react-router"
 
 export function EquipmentList() {
   const { me } = useAccount({
-    root: {
-      game: {
-        equipment: [{ stats: {} }],
-      },
-    },
-  })
+    resolve: {
+      root: {
+        game: {
+          equipment: {
+            $each: {
+              stats: true,
+              abilities: { $each: true }
+            }
+          }
+        }
+      }
+    }
+  } as const)
 
   const navigate = useNavigate()
 
@@ -49,7 +56,7 @@ export function EquipmentList() {
     )
 
     // Add to equipment map using the Jazz-generated ID
-    me.root.game.equipment[newEquipment.id] = newEquipment as Equipment & { stats: Stats }
+    me.root.game.equipment[newEquipment.id] = newEquipment as any
 
     // Navigate to the new equipment
     navigate({ to: `/equipment/${newEquipment.id}` })

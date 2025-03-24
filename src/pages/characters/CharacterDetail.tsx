@@ -1,6 +1,6 @@
 "use client"
 
-import { useAccount } from "jazz-react"
+import { useAccount, useCoState } from "jazz-react"
 import { useParams, useNavigate } from "@tanstack/react-router"
 import { StatsForm } from "../../components/StatsForm"
 import { ImageUploader } from "../../components/ImageUploader"
@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/drawer"
 import { useState, useEffect } from "react"
 import { X } from "lucide-react"
+import { BaseCharacter } from "@/schema"
 
 export function CharacterDetail() {
   const { characterId } = useParams({ from: "/characters/$characterId" })
@@ -27,14 +28,18 @@ export function CharacterDetail() {
   const [isOpen, setIsOpen] = useState(true)
 
   const { me } = useAccount({
-    root: {
-      game: {
-        characters: [
-          {
-            stats: {},
-          },
-        ],
-      },
+    resolve: {
+      root: {
+        game: {
+          characters: true
+        }
+      }
+    }
+  })
+
+  const character = useCoState(BaseCharacter, characterId, {
+    resolve: {
+      stats: true,
     },
   })
 
@@ -50,23 +55,10 @@ export function CharacterDetail() {
     }, 300) // Wait for drawer animation to complete
   }
 
-  if (!me?.root?.game) {
+  if (!me?.root?.game || !character) {
     return <div>Loading...</div>
   }
-
-  const character = me.root.game.characters[characterId]
-
-  if (!character) {
-    return (
-      <div className="text-center py-12">
-        <h2 className="text-2xl font-bold text-gray-700">Character not found</h2>
-        <Button onClick={() => navigate({ to: "/characters" })} className="mt-4">
-          Back to Characters
-        </Button>
-      </div>
-    )
-  }
-
+ 
   const handleDeleteCharacter = () => {
     if (confirm("Are you sure you want to delete this character?")) {
       delete me.root.game.characters[characterId]

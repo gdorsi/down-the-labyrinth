@@ -12,11 +12,15 @@ interface AbilitySelectorProps {
 
 export function AbilitySelector({ currentAbilityIds, onAddAbility }: AbilitySelectorProps) {
   const { me } = useAccount({
-    root: {
-      game: {
-        abilities: [{}],
-      },
-    },
+    resolve: {
+      root: {
+        game: {
+          abilities: {
+            $each: true
+          }
+        }
+      }
+    }
   })
 
   // Get all available abilities from the game

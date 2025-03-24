@@ -10,18 +10,22 @@ import { Outlet } from "@tanstack/react-router"
 
 export function MonstersList() {
   const { me } = useAccount({
-    root: {
-      game: {
-        monsters: [
-          {
-            abilities: [{}],
-            drop: [{}],
-            essence: {},
-            stats: {},
-          },
-        ],
-      },
-    },
+    resolve: {
+      root: {
+        game: {
+          monsters: {
+            $each: {
+              abilities: { $each: true },
+              drop: { $each: true },
+              essence: {
+                stats: true
+              },
+              stats: true
+            }
+          }
+        }
+      }
+    }
   })
 
   const navigate = useNavigate()

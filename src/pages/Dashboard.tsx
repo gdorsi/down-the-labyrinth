@@ -3,12 +3,14 @@ import { Link } from "@tanstack/react-router"
 
 export function Dashboard() {
   const { me } = useAccount({
-    root: {
-      game: {
-        monsters: {},
-        equipment: {},
-        abilities: {},
-        characters: {},
+    resolve: {
+      root: {
+        game: {
+          monsters: true,
+          equipment: true,
+          abilities: true,
+          characters: true,
+        },
       },
     },
   })

@@ -8,15 +8,17 @@ import { Outlet } from "@tanstack/react-router"
 
 export function CharactersList() {
   const { me } = useAccount({
-    root: {
-      game: {
-        characters: [
-          {
-            stats: {},
-          },
-        ],
-      },
-    },
+    resolve: {
+      root: {
+        game: {
+          characters: {
+            $each: {
+              stats: true
+            }
+          }
+        }
+      }
+    }
   })
 
   const navigate = useNavigate()

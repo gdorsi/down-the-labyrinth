@@ -1,6 +1,6 @@
-import { useAccount } from "jazz-react"
+import { useAccount, useCoState } from "jazz-react"
 import { useParams, useNavigate } from "@tanstack/react-router"
-import type { Ability } from "../../schema"
+import { Monster, type Ability } from "../../schema"
 import { StatsForm } from "../../components/StatsForm"
 import { ImageUploader } from "../../components/ImageUploader"
 import { AbilitySelector } from "../../components/AbilitySelector"
@@ -19,7 +19,7 @@ import {
   DrawerHeader,
   DrawerTitle,
 } from "@/components/ui/drawer"
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { X } from "lucide-react"
 
 export function MonsterDetail() {
@@ -28,26 +28,14 @@ export function MonsterDetail() {
   const [isOpen, setIsOpen] = useState(true)
 
   const { me } = useAccount({
-    root: {
-      game: {
-        monsters: [
-          {
-            abilities: [{}],
-            drop: [{}],
-            essence: {
-              stats: {},
-            },
-            stats: {},
-          },
-        ],
-      },
-    },
+    resolve: {
+      root: {
+        game: {
+          monsters: true
+        }
+      }
+    }
   })
-
-  useEffect(() => {
-    // When monsterId changes, open the drawer
-    setIsOpen(true)
-  }, [monsterId])
 
   const handleClose = () => {
     setIsOpen(false)
@@ -56,21 +44,19 @@ export function MonsterDetail() {
     }, 300) // Wait for drawer animation to complete
   }
 
-  if (!me?.root?.game) {
+  const monster = useCoState(Monster, monsterId, {
+    resolve: {
+      abilities: { $each: true },
+      drop: { $each: true },
+      essence: {
+        stats: true
+      },
+      stats: true
+    }
+  })
+
+  if (!me?.root?.game || !monster) {
     return <div>Loading...</div>
-  }
-
-  const monster = me.root.game.monsters[monsterId]
-
-  if (!monster) {
-    return (
-      <div className="text-center py-12">
-        <h2 className="text-2xl font-bold text-gray-700">Monster not found</h2>
-        <Button onClick={() => navigate({ to: "/monsters" })} className="mt-4">
-          Back to Monsters
-        </Button>
-      </div>
-    )
   }
 
   const handleDeleteMonster = () => {

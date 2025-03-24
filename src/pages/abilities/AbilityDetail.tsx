@@ -25,11 +25,15 @@ export function AbilityDetail() {
   const [isOpen, setIsOpen] = useState(true)
 
   const { me } = useAccount({
-    root: {
-      game: {
-        abilities: [{}],
-      },
-    },
+    resolve: {
+      root: {
+        game: {
+          abilities: {
+            $each: true
+          }
+        }
+      }
+    }
   })
 
   useEffect(() => {

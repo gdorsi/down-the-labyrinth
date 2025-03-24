@@ -10,11 +10,15 @@ import { Outlet } from "@tanstack/react-router"
 
 export function AbilitiesList() {
   const { me } = useAccount({
-    root: {
-      game: {
-        abilities: [{}],
-      },
-    },
+    resolve: {
+      root: {
+        game: {
+          abilities: {
+            $each: true
+          }
+        }
+      }
+    }
   })
 
   const navigate = useNavigate()
@@ -78,7 +82,7 @@ export function AbilitiesList() {
               <div className="flex items-center">
                 <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gray-200 rounded-md overflow-hidden mr-3 sm:mr-4">
                   {ability.image ? (
-                    <ProgressiveImg image={ability.image} maxWidth={64}>
+                    <ProgressiveImg image={ability.image} targetWidth={64}>
                       {({ src }) => (
                         <img
                           src={src || "/placeholder.svg"}

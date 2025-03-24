@@ -33,16 +33,6 @@ const monstersRoute = new Route({
   component: () => <MonstersList />,
 })
 
-const monstersIndexRoute = new Route({
-  getParentRoute: () => monstersRoute,
-  path: "/",
-  component: () => (
-    <div className="hidden lg:block bg-gray-50 rounded-lg p-6 text-center text-gray-500">
-      Select a monster to view details
-    </div>
-  ),
-})
-
 const monsterDetailRoute = new Route({
   getParentRoute: () => monstersRoute,
   path: "$monsterId",
@@ -54,16 +44,6 @@ const equipmentRoute = new Route({
   getParentRoute: () => rootRoute,
   path: "equipment",
   component: () => <EquipmentList />,
-})
-
-const equipmentIndexRoute = new Route({
-  getParentRoute: () => equipmentRoute,
-  path: "/",
-  component: () => (
-    <div className="hidden lg:block bg-gray-50 rounded-lg p-6 text-center text-gray-500">
-      Select equipment to view details
-    </div>
-  ),
 })
 
 const equipmentDetailRoute = new Route({
@@ -79,16 +59,6 @@ const abilitiesRoute = new Route({
   component: () => <AbilitiesList />,
 })
 
-const abilitiesIndexRoute = new Route({
-  getParentRoute: () => abilitiesRoute,
-  path: "/",
-  component: () => (
-    <div className="hidden lg:block bg-gray-50 rounded-lg p-6 text-center text-gray-500">
-      Select an ability to view details
-    </div>
-  ),
-})
-
 const abilityDetailRoute = new Route({
   getParentRoute: () => abilitiesRoute,
   path: "$abilityId",
@@ -102,15 +72,6 @@ const charactersRoute = new Route({
   component: () => <CharactersList />,
 })
 
-const charactersIndexRoute = new Route({
-  getParentRoute: () => charactersRoute,
-  path: "/",
-  component: () => (
-    <div className="hidden lg:block bg-gray-50 rounded-lg p-6 text-center text-gray-500">
-      Select a character to view details
-    </div>
-  ),
-})
 
 const characterDetailRoute = new Route({
   getParentRoute: () => charactersRoute,
@@ -121,10 +82,10 @@ const characterDetailRoute = new Route({
 // Create the route tree
 const routeTree = rootRoute.addChildren([
   indexRoute,
-  monstersRoute.addChildren([monstersIndexRoute, monsterDetailRoute]),
-  equipmentRoute.addChildren([equipmentIndexRoute, equipmentDetailRoute]),
-  abilitiesRoute.addChildren([abilitiesIndexRoute, abilityDetailRoute]),
-  charactersRoute.addChildren([charactersIndexRoute, characterDetailRoute]),
+  monstersRoute.addChildren([monsterDetailRoute]),
+  equipmentRoute.addChildren([equipmentDetailRoute]),
+  abilitiesRoute.addChildren([abilityDetailRoute]),
+  charactersRoute.addChildren([characterDetailRoute]),
 ])
 
 // Create the router

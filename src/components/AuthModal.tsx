@@ -70,12 +70,6 @@ export function AuthModal({ open, onOpenChange }: AuthModalProps) {
               </p>
             </div>
 
-            {auth.error && (
-              <Alert variant="destructive">
-                <AlertDescription>{auth.error}</AlertDescription>
-              </Alert>
-            )}
-
             <Button onClick={handleSignUp} className="w-full">
               I've Saved My Passphrase
             </Button>
@@ -91,12 +85,6 @@ export function AuthModal({ open, onOpenChange }: AuthModalProps) {
                 className="h-24 font-mono text-sm"
               />
             </div>
-
-            {auth.error && (
-              <Alert variant="destructive">
-                <AlertDescription>{auth.error}</AlertDescription>
-              </Alert>
-            )}
 
             <Button onClick={handleLogIn} className="w-full">
               Log In
