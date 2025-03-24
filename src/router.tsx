@@ -9,6 +9,8 @@ import { MonstersList } from "./pages/monsters/MonstersList"
 import { EquipmentList } from "./pages/equipment/EquipmentList"
 import { AbilitiesList } from "./pages/abilities/AbilitiesList"
 import { CharactersList } from "./pages/characters/CharactersList"
+import { RulebookViewer } from "./pages/settings/RulebookViewer"
+import { SettingsPage } from "./pages/settings/SettingsPage"
 
 // Define the root route
 const rootRoute = new RootRoute({
@@ -24,6 +26,20 @@ const indexRoute = new Route({
   getParentRoute: () => rootRoute,
   path: "/",
   component: Dashboard,
+})
+
+// Settings route
+const settingsRoute = new Route({
+  getParentRoute: () => rootRoute,
+  path: "settings",
+  component: SettingsPage,
+})
+
+// Rulebook route
+const rulebookRoute = new Route({
+  getParentRoute: () => rootRoute,
+  path: "rulebook",
+  component: RulebookViewer,
 })
 
 // Monsters routes
@@ -82,6 +98,8 @@ const characterDetailRoute = new Route({
 // Create the route tree
 const routeTree = rootRoute.addChildren([
   indexRoute,
+  settingsRoute,
+  rulebookRoute,
   monstersRoute.addChildren([monsterDetailRoute]),
   equipmentRoute.addChildren([equipmentDetailRoute]),
   abilitiesRoute.addChildren([abilityDetailRoute]),

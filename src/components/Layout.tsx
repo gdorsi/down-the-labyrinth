@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router"
 import { useAccount } from "jazz-react"
 import { useState } from "react"
 import type { ReactNode } from "react"
-import { Menu, X } from "lucide-react"
+import { Book, Menu, Settings, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { AuthButton } from "./AuthButton"
@@ -96,6 +96,26 @@ export function Layout({ children }: { children: ReactNode }) {
                       Characters
                     </Link>
                   </li>
+                  <li>
+                    <Link
+                      to="/rulebook"
+                      className="block px-4 py-2 rounded-md hover:bg-gray-100"
+                      activeProps={{ className: "bg-blue-100 text-blue-700" }}
+                      onClick={() => setIsOpen(false)}
+                    >
+                      Rulebook
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/settings"
+                      className="block px-4 py-2 rounded-md hover:bg-gray-100"
+                      activeProps={{ className: "bg-blue-100 text-blue-700" }}
+                      onClick={() => setIsOpen(false)}
+                    >
+                      Settings
+                    </Link>
+                  </li>
                 </ul>
               </nav>
             </SheetContent>
@@ -153,6 +173,26 @@ export function Layout({ children }: { children: ReactNode }) {
                 activeProps={{ className: "bg-blue-100 text-blue-700" }}
               >
                 Characters
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/rulebook"
+                className="flex items-center px-4 py-2 rounded-md hover:bg-gray-100"
+                activeProps={{ className: "bg-blue-100 text-blue-700" }}
+              >
+                <Book className="h-4 w-4 mr-2" />
+                Rulebook
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/settings"
+                className="flex items-center px-4 py-2 rounded-md hover:bg-gray-100"
+                activeProps={{ className: "bg-blue-100 text-blue-700" }}
+              >
+                <Settings className="h-4 w-4 mr-2" />
+                Settings
               </Link>
             </li>
           </ul>
