@@ -51,7 +51,7 @@ export function CharactersList() {
     )
 
     // Add to characters map using the Jazz-generated ID
-    me.root.game.characters[newCharacter.id] = newCharacter
+    me.root.game.characters[newCharacter.id] = newCharacter as BaseCharacter & { stats: Stats }
 
     // Navigate to the new character
     navigate({ to: `/characters/${newCharacter.id}` })
@@ -88,7 +88,7 @@ export function CharactersList() {
               <div className="flex items-center">
                 <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gray-200 rounded-md overflow-hidden mr-3 sm:mr-4">
                   {character.image ? (
-                    <ProgressiveImg image={character.image} maxWidth={64}>
+                    <ProgressiveImg image={character.image} targetWidth={64}>
                       {({ src }) => (
                         <img
                           src={src || "/placeholder.svg"}

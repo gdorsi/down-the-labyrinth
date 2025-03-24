@@ -34,7 +34,9 @@ export function MonsterDetail() {
           {
             abilities: [{}],
             drop: [{}],
-            essence: {},
+            essence: {
+              stats: {},
+            },
             stats: {},
           },
         ],

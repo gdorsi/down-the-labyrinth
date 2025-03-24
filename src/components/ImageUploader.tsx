@@ -42,7 +42,7 @@ export function ImageUploader({ image, onImageChange, owner }: ImageUploaderProp
 
           {image && (
             <div className="mb-3 sm:mb-4 flex justify-center">
-              <ProgressiveImg image={image} maxWidth={256}>
+              <ProgressiveImg image={image} targetWidth={256}>
                 {({ src }) => (
                   <img
                     src={src || "/placeholder.svg"}

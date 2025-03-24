@@ -23,9 +23,9 @@
     "@tanstack/react-router": "^1.114.27",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "jazz-browser-media-images": "^0.11.5",
-    "jazz-react": "^0.11.5",
-    "jazz-tools": "0.11.5",
+    "jazz-browser-media-images": "^0.11.6",
+    "jazz-react": "^0.11.6",
+    "jazz-tools": "^0.11.6",
     "lucide-react": "^0.479.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -48,9 +48,6 @@
     "typescript": "~5.6.2",
     "vite": "^6.2.1",
     "vite-plugin-pwa": "^0.21.1"
-  },
-  "resolutions": {
-    "jazz-tools": "0.11.5"
   },
   "packageManager": "pnpm@9.15.4+sha256.9bee59c7313a216722c079c1e22160dea7f88df4e0c3450b1d7b01b882336c6a"
 }

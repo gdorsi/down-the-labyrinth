@@ -49,7 +49,7 @@ export function EquipmentList() {
     )
 
     // Add to equipment map using the Jazz-generated ID
-    me.root.game.equipment[newEquipment.id] = newEquipment
+    me.root.game.equipment[newEquipment.id] = newEquipment as Equipment & { stats: Stats }
 
     // Navigate to the new equipment
     navigate({ to: `/equipment/${newEquipment.id}` })
@@ -86,7 +86,7 @@ export function EquipmentList() {
               <div className="flex items-center">
                 <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gray-200 rounded-md overflow-hidden mr-3 sm:mr-4">
                   {item.image ? (
-                    <ProgressiveImg image={item.image} maxWidth={64}>
+                    <ProgressiveImg image={item.image} targetWidth={64}>
                       {({ src }) => (
                         <img src={src || "/placeholder.svg"} alt={item.name} className="w-full h-full object-cover" />
                       )}

@@ -78,7 +78,7 @@ export function MonstersList() {
     )
 
     // Add to monsters map using the Jazz-generated ID
-    me.root.game.monsters[newMonster.id] = newMonster
+    me.root.game.monsters[newMonster.id] = newMonster as any
 
     // Navigate to the new monster
     navigate({ to: `/monsters/${newMonster.id}` })
@@ -115,7 +115,7 @@ export function MonstersList() {
               <div className="flex items-center">
                 <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gray-200 rounded-md overflow-hidden mr-3 sm:mr-4">
                   {monster.image ? (
-                    <ProgressiveImg image={monster.image} maxWidth={256}>
+                    <ProgressiveImg image={monster.image} targetWidth={64}>
                       {({ src }) => (
                         <img
                           src={src || "/placeholder.svg"}

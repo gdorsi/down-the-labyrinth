@@ -14,18 +14,20 @@ export function AbilitySelector({ currentAbilityIds, onAddAbility }: AbilitySele
   const { me } = useAccount({
     root: {
       game: {
-        abilities: {},
+        abilities: [{}],
       },
     },
   })
 
   // Get all available abilities from the game
   const gameAbilities = useMemo(() => {
-    return me?.root?.game?.abilities || {}
+    return me?.root?.game?.abilities
   }, [me?.root?.game?.abilities])
 
   // Filter out abilities that are already added
   const availableAbilities = useMemo(() => {
+    if (!gameAbilities) return []
+
     return Object.entries(gameAbilities)
       .filter(([id]) => !currentAbilityIds.includes(id))
       .map(([id, ability]) => ({
