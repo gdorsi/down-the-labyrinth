@@ -1,139 +1,110 @@
-"use client";
+import { useState } from "react"
+import { usePassphraseAuth } from "jazz-react"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
+import { Button } from "@/components/ui/button"
+import { Textarea } from "@/components/ui/textarea"
+import { Alert, AlertDescription } from "@/components/ui/alert"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { wordlist } from "../auth/wordlist"
 
-import type React from "react";
-import { useState } from "react";
-import { usePasskeyAuth, usePassphraseAuth } from "jazz-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-	Dialog,
-	DialogContent,
-	DialogDescription,
-	DialogHeader,
-	DialogTitle,
-} from "@/components/ui/dialog";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { wordlist } from "@/components/wordlist";
-import { Textarea } from "./ui/textarea";
 interface AuthModalProps {
-	open: boolean;
-	onOpenChange: (open: boolean) => void;
+  open: boolean
+  onOpenChange: (open: boolean) => void
 }
 
-export default function AuthModal({ open, onOpenChange }: AuthModalProps) {
-	const [username, setUsername] = useState("");
-	const [isSignUp, setIsSignUp] = useState(true);
-	const [error, setError] = useState<string | null>(null);
+export function AuthModal({ open, onOpenChange }: AuthModalProps) {
+  const [loginPassphrase, setLoginPassphrase] = useState("")
+  const [activeTab, setActiveTab] = useState<"signup" | "login">("signup")
+  const auth = usePassphraseAuth({ wordlist })
+  const isAuthenticated = auth.state === "signedIn"
 
-	const auth = usePasskeyAuth({
-		appName: "Game Manager",
-	});
-
-	const passphraseAuth = usePassphraseAuth({
-		wordlist,
-	});
-
-	const handleViewChange = () => {
-		setIsSignUp(!isSignUp);
-		setError(null);
-	};
-
-	const handlePasskeySubmit = async (e: React.FormEvent) => {
-		e.preventDefault();
-		setError(null);
-
-		try {
-			if (isSignUp) {
-				await auth.signUp(username);
-			} else {
-				await auth.logIn();
-			}
-			onOpenChange(false);
-		} catch (error) {
-			setError(error instanceof Error ? error.message : "Unknown error");
-		}
-	};
-
-	const handlePassphraseSubmit = async (e: React.FormEvent) => {
-		e.preventDefault();
-		setError(null);
-
-		const formData = new FormData(e.target as HTMLFormElement);
-		const passphrase = formData.get("passphrase") as string;
-
-		if (!passphrase) return;
-
-		try {
-			await passphraseAuth.logIn(passphrase);
+  const handleSignUp = async () => {
+    try {
+      await auth.signUp()
       onOpenChange(false)
-		} catch (error) {
-			setError(error instanceof Error ? error.message : "Unknown error");
-		}
-	};
+    } catch (err) {
+      console.error("Sign up failed:", err)
+    }
+  }
 
-	return (
-		<Dialog open={open} onOpenChange={onOpenChange}>
-			<DialogContent className="sm:max-w-[425px]">
-				<DialogHeader>
-					<DialogTitle>{isSignUp ? "Create Account" : "Sign In"}</DialogTitle>
-					<DialogDescription>
-						{isSignUp
-							? "Create a new account with passkey authentication"
-							: "Sign in to your account"}
-					</DialogDescription>
-				</DialogHeader>
-				<form onSubmit={handlePassphraseSubmit}>
-					{isSignUp && (
-						<div className="grid gap-4 py-4">
-							<div className="grid grid-cols-4 items-center gap-4">
-								<Label htmlFor="username" className="text-right">
-									Username
-								</Label>
-								<Input
-									id="username"
-									value={username}
-									onChange={(e) => setUsername(e.target.value)}
-									className="col-span-3"
-									required
-								/>
-							</div>
-						</div>
-					)}
+  const handleLogIn = async () => {
+    try {
+      await auth.logIn(loginPassphrase)
+      onOpenChange(false)
+    } catch (err) {
+      console.error("Login failed:", err)
+    }
+  }
 
-					{error && (
-						<Alert variant="destructive" className="my-4">
-							<AlertDescription>{error}</AlertDescription>
-						</Alert>
-					)}
+  if (isAuthenticated) {
+    onOpenChange(false)
+    return null
+  }
 
-					<div className="flex flex-col gap-4">
-						<Button type="button" onClick={handlePasskeySubmit}>
-							{isSignUp ? "Sign Up with Passkey" : "Sign In with Passkey"}
-						</Button>
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle className="text-xl font-bold">
+            {activeTab === "signup" ? "Create Account" : "Welcome Back"}
+          </DialogTitle>
+          <DialogDescription>
+            {activeTab === "signup"
+              ? "Sign up to enable sync across devices and share your content."
+              : "Log in with your passphrase to access your content."}
+          </DialogDescription>
+        </DialogHeader>
 
-						{!isSignUp && (
-							<div className="flex flex-col text-center gap-4">
-								<Label htmlFor="passphrase">Passphrase</Label>
-								<Textarea name="passphrase" />
-								<Button type="submit">Sign In with Passphrase</Button>
-							</div>
-						)}
+        <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as "signup" | "login")} className="w-full">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="signup">Sign Up</TabsTrigger>
+            <TabsTrigger value="login">Log In</TabsTrigger>
+          </TabsList>
 
-						<div className="text-center text-sm text-muted-foreground mt-2">
-							{isSignUp ? "Already have an account?" : "Don't have an account?"}
-							<Button
-								variant="link"
-								type="button"
-								onClick={handleViewChange}
-								className="px-2 py-0 h-auto"
-							>
-								{isSignUp ? "Sign In" : "Sign Up"}
-							</Button>
-						</div>
-					</div>
-				</form>
-			</DialogContent>
-		</Dialog>
-	);
+          <TabsContent value="signup" className="space-y-4 mt-4">
+            <div className="space-y-2">
+              <h3 className="text-sm font-medium">Your Passphrase</h3>
+              <Textarea readOnly value={auth.passphrase} className="h-24 font-mono text-sm" />
+              <p className="text-xs text-muted-foreground">
+                Save this passphrase somewhere safe. You'll need it to log in on other devices.
+              </p>
+            </div>
+
+            {auth.error && (
+              <Alert variant="destructive">
+                <AlertDescription>{auth.error}</AlertDescription>
+              </Alert>
+            )}
+
+            <Button onClick={handleSignUp} className="w-full">
+              I've Saved My Passphrase
+            </Button>
+          </TabsContent>
+
+          <TabsContent value="login" className="space-y-4 mt-4">
+            <div className="space-y-2">
+              <h3 className="text-sm font-medium">Enter Your Passphrase</h3>
+              <Textarea
+                value={loginPassphrase}
+                onChange={(e) => setLoginPassphrase(e.target.value)}
+                placeholder="Enter your passphrase here..."
+                className="h-24 font-mono text-sm"
+              />
+            </div>
+
+            {auth.error && (
+              <Alert variant="destructive">
+                <AlertDescription>{auth.error}</AlertDescription>
+              </Alert>
+            )}
+
+            <Button onClick={handleLogIn} className="w-full">
+              Log In
+            </Button>
+          </TabsContent>
+        </Tabs>
+      </DialogContent>
+    </Dialog>
+  )
 }
+
